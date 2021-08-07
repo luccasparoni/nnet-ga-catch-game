@@ -40,6 +40,8 @@ def run_game():
 
 	while running:
 		dt = clock.tick(30)
+		if(dt > 120):
+			dt = 120
 		game_time += dt
 
 		gameDisplay.blit(bgImg, (0,0))
@@ -51,7 +53,7 @@ def run_game():
 		# if(keys[pygame.K_RIGHT]):
 		# 	plataform.move_right()
 
-		# plataform.update(ballGenerator)
+		# plataform.update()
 		# ballGenerator.update(dt)
 
 		# points = plataform.get_points()

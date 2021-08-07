@@ -6,18 +6,18 @@ class Ball():
 	def __init__(self, gameDisplay):
 		self.gameDisplay = gameDisplay;
 		self.center_x = self.generateRandomX();
-		self.center_y = 0 - BALL_DIAMETER
+		self.center_y = 0 - BALL_RADIUS
 		self.active = True;
 		self.rect = self.draw()
 
 	def get_bottom_height(self):
-		return self.center_y + BALL_DIAMETER
+		return self.center_y + BALL_RADIUS
 
 	def draw(self):
 		self.rect = pygame.draw.circle(
 			self.gameDisplay, 
 			BALL_COLOR, 
-			(self.center_x, self.center_y), BALL_DIAMETER * 2)
+			(self.center_x, self.center_y), BALL_RADIUS * 2)
 		return self.rect
 
 	def get_rect(self):
@@ -27,6 +27,7 @@ class Ball():
 		self.center_y = self.center_y + BALL_SPEED * dt
 		if(self.center_y > WINDOW_HEIGHT):
 			self.active = False
+			self.draw()
 		if(self.active == True):
 			self.draw()
 
@@ -40,8 +41,8 @@ class Ball():
 		self.active = False
 
 	def is_inside(self, y1, y2):
-		ball_top = self.center_y - BALL_DIAMETER
-		ball_bottom = self.center_y + BALL_DIAMETER
+		ball_top = self.center_y - BALL_RADIUS
+		ball_bottom = self.center_y + BALL_RADIUS
 		if(y1 < ball_top < y2 or y1 < ball_bottom < y2):
 			return True
 		return False

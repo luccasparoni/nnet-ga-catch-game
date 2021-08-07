@@ -1,11 +1,12 @@
 from defs import *
 from neuralNet import NeuralNet
 from math import floor
-
+from plataform import Plataform
 
 class Evolver():
-  def __init__(self, population):
+  def __init__(self, population, gameDisplay):
     self.population = population 
+    self.gameDisplay = gameDisplay
 
   def evolve_population(self):
     self._order_population_by_points()
@@ -44,7 +45,8 @@ class Evolver():
     total_of_childs = GENERATION_SIZE - len(parents)
 
     for i in range(total_of_childs):
-      childs.append(NeuralNet.breed(parents))
+      childs.append(
+        Plataform(self.gameDisplay, NeuralNet.breed(parents)))
 
     return childs
 

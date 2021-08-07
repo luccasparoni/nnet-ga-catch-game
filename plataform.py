@@ -42,6 +42,9 @@ class Plataform():
 
 	def lost_game(self):
 		return self.is_alive == False;
+	
+	def kill(self):
+		self.is_alive = False
 
 	def get_points(self):
 		return self.points
@@ -50,8 +53,8 @@ class Plataform():
 		return self.rect
 
 	def catched_the_ball(self, ball):
-		return self.rect.colliderect(ball.get_rect())
-
+		return pygame.Rect(self.x, self.y, PLATAFORM[0], PLATAFORM[1]).colliderect(ball.get_rect())
+		
 	def predict(self, ballGenerator):
 		ball = ballGenerator.ball
 		input = np.array([self.x, self.y, ball.center_x, ball.center_y, BALL_SPEED])
@@ -61,8 +64,10 @@ class Plataform():
 			self.move_left()
 		else:
 			self.move_right()
-		# self.update(ballGenerator)
 
+
+	def mutate(self):
+		self.brain = self.brain.mutate();
 
 
 

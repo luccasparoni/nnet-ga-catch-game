@@ -29,12 +29,13 @@ class PlataformCollection():
 		self.active_plataforms = self._get_active_plataforms()
 
 		self._predict_movements()
+		self._kill_losers()
 		self._update_plataforms()
 
-		self._kill_losers()
 
 		if(self._all_died()):
-			self._evolve()
+			self.create_generation()
+			# self._evolve()
 			self.ballGenerator.reset()
 
 	def _get_active_plataforms(self):
@@ -68,7 +69,7 @@ class PlataformCollection():
 			if(plataform.catched_the_ball(ball)):
 				plataform.points +=1
 			else:
-				plataform.is_alive = False
+				plataform.kill()
 						
 
 	def _update_plataforms(self):
@@ -77,7 +78,7 @@ class PlataformCollection():
 
 
 	def _evolve(self):
-		evolver = Evolver(self.plataforms)
+		evolver = Evolver(self.plataforms, self.gameDisplay)
 
 		self.plataforms = evolver.evolve_population()
 		self.active_plataforms = self.plataforms
