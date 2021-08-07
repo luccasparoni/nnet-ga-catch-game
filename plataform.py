@@ -49,15 +49,11 @@ class Plataform():
 	def get_rect(self):
 		return self.rect
 
-	def collide_with_ball(self, ball):
+	def catched_the_ball(self, ball):
 		return self.rect.colliderect(ball.get_rect())
 
-	def predict(self, ballCollection):
-		# TODO: ARRUMAR ESSA GABIARRA
-		# if(len(ballCollection.balls) == 0):
-		# 	input = np.array([self.x, self.y, WINDOW_WIDTH / 2, 0, BALL_SPEED])
-		# else:
-		ball = ballCollection.balls[0]
+	def predict(self, ballGenerator):
+		ball = ballGenerator.ball
 		input = np.array([self.x, self.y, ball.center_x, ball.center_y, BALL_SPEED])
 
 		left, right = self.brain.predict(input)
@@ -65,7 +61,7 @@ class Plataform():
 			self.move_left()
 		else:
 			self.move_right()
-		# self.update(ballCollection)
+		# self.update(ballGenerator)
 
 
 

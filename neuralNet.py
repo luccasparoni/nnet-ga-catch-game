@@ -19,7 +19,6 @@ class NeuralNet():
 
 		return model
 
-
 	def predict(self, input):
 		input = np.expand_dims(input, axis = 0)
 		return self.model.predict(input)[0]

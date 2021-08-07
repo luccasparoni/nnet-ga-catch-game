@@ -5,7 +5,7 @@ import pygame
 import random
 from defs import *
 from plataform import Plataform
-from ballCollection import BallCollection
+from ballGenerator import BallGenerator
 from plataformCollection import PlataformCollection
 from neuralNet import NeuralNet
 
@@ -35,8 +35,8 @@ def run_game():
 	running = True
 	game_time= 0
 	# plataform = Plataform(gameDisplay, NeuralNet());
-	ballCollection = BallCollection(gameDisplay)
-	plataformCollection = PlataformCollection(gameDisplay, ballCollection)
+	ballGenerator = BallGenerator(gameDisplay)
+	plataformCollection = PlataformCollection(gameDisplay, ballGenerator)
 
 	while running:
 		dt = clock.tick(30)
@@ -44,15 +44,15 @@ def run_game():
 
 		gameDisplay.blit(bgImg, (0,0))
 
-		keys = pygame.key.get_pressed();
+		# keys = pygame.key.get_pressed();
 
 		# if(keys[pygame.K_LEFT]):
 		# 	plataform.move_left()
 		# if(keys[pygame.K_RIGHT]):
 		# 	plataform.move_right()
 
-		# plataform.update(ballCollection)
-		# ballCollection.update(dt)
+		# plataform.update(ballGenerator)
+		# ballGenerator.update(dt)
 
 		# points = plataform.get_points()
 		plataformCollection.update(dt)
