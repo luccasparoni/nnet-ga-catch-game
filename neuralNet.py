@@ -1,8 +1,10 @@
+from defs import *
 import tensorflow as tf
 from tensorflow.keras.layers import Dense
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.optimizers import SGD
 import numpy as np
+import random
 
 
 class NeuralNet():
@@ -13,9 +15,10 @@ class NeuralNet():
 
 	def create_neural_model(self):
 		model = Sequential()
-		model.add(Dense(4, input_shape = (5,), activation='relu'))
+		model.add(Dense(4, input_shape = (2,), activation='relu'))
 		model.add(Dense(2, activation="softmax"))
-		model.compile(SGD(lr= .2), "mse")
+		model.compile("adam")
+		# model.compile(SGD(lr= .2), "mse")
 
 		return model
 
@@ -23,3 +26,57 @@ class NeuralNet():
 		input = np.expand_dims(input, axis = 0)
 		return self.model.predict(input)[0]
 
+	def mutate(self):
+		weights = self.model.get_weights()
+
+		mutated_weights = []
+
+		for weight in weights:
+			mutated_weights.append(self._mutate_weight(weight))
+
+		self.model.set_weights(mutated_weights)
+
+	def get_weights(self):
+		return self.model.get_weights()
+
+	def _mutate_weight(self, weight):
+		if(random.randrange(0, 1) > MUTATION_CHANCE):
+			return weight + random.rand(-weight / 4, weight / 4)
+		return weight
+
+
+	def breed(parents):
+		father = parents[random.randint(0, len(parents) - 1)]
+		mother = parents[random.randint(0, len(parents) - 1)]
+
+		child_weights = []
+
+		father_weights = father.brain.get_weights()
+		mother_weights = mother.brain.get_weights()
+		for i in range(len(father_weights)):
+			if(random.randrange(0,1) > 0.5):
+				child_weights.append(father_weights[i])
+			else:
+				child_weights.append(mother_weights[i])
+
+		child_brain = NeuralNet()
+		child_brain.model.set_weights(child_weights)
+		child_brain._mutate_child()
+
+		return child_brain
+
+
+	def _mutate_child(self):
+		weights = self.model.get_weights()
+
+		mutated_weights = []
+
+		for weight in weights:
+			mutated_weights.append(self._mutate_weight(weight))
+
+		self.model.set_weights(mutated_weights)
+
+	def _mutate_weight(self, weight):
+		if(random.randrange(0, 1) > CHILD_MUTATION_CHANCE):
+			return weight + random.rand(-weight / 4, weight / 4)
+		return weight

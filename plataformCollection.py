@@ -1,5 +1,4 @@
 from plataformPopEvolver import Evolver
-import pygame
 
 
 from defs import *
@@ -14,6 +13,7 @@ class PlataformCollection():
 		self.create_generation()
 		self.ballGenerator = ballGenerator
 		self.active_plataforms = []
+		self.generation = 1
 
 	def create_generation(self):
 		self.plataforms = []
@@ -34,13 +34,25 @@ class PlataformCollection():
 
 
 		if(self._all_died()):
-			self.create_generation()
-			# self._evolve()
+			# self.create_generation()
+			self._evolve()
+			self.generation += 1
 			self.ballGenerator.reset()
+
+	def get_alive(self):
+		return len(self.active_plataforms)
+
+	def get_generation(self):
+		return self.generation
+
+	def gex_max_points(self):
+		if(self._all_died()):
+			return 0
+		return self.active_plataforms[0].points
 
 	def _get_active_plataforms(self):
 		plat = []
-		for plataform in self.plataforms:
+		for plataform in self.active_plataforms:
 			if (plataform.lost_game() == False):
 				plat.append(plataform)
 
@@ -66,11 +78,7 @@ class PlataformCollection():
 		ball = self.ballGenerator.ball
 
 		for plataform in self.active_plataforms:
-			if(plataform.catched_the_ball(ball)):
-				plataform.points +=1
-			else:
-				plataform.kill()
-						
+			plataform.try_to_catch(ball)					
 
 	def _update_plataforms(self):
 		for plataform in self.active_plataforms:
@@ -81,7 +89,10 @@ class PlataformCollection():
 		evolver = Evolver(self.plataforms, self.gameDisplay)
 
 		self.plataforms = evolver.evolve_population()
+		self._reset_all()
 		self.active_plataforms = self.plataforms
 
-
-
+	
+	def _reset_all(self):
+		for plataform in self.plataforms:
+			plataform.reset()

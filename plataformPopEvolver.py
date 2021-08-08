@@ -10,9 +10,13 @@ class Evolver():
 
   def evolve_population(self):
     self._order_population_by_points()
-    parents = self._get_parents()
-    parents = self._mutate_parents(parents)
-    childs = self._breed(parents)
+
+    best_ind = self._get_best_individuals()
+    worst_ind = self._get_worst_individuals()
+    worst_ind = self._mutate_parents(worst_ind)
+    parents = best_ind + worst_ind    
+    
+    childs = self._breed(best_ind)
 
     self.population = parents + childs
 
@@ -21,10 +25,15 @@ class Evolver():
   def _get_parents(self):
     best_ind = self._get_best_individuals()
     worst_ind = self._get_worst_individuals()
+    worst_ind = self._mutate_parents(worst_ind)
     return best_ind + worst_ind
 
   def _order_population_by_points(self):
-    self.population = sorted(self.population, key=lambda x: x.points, reverse=True)
+    self.population = sorted(self.population, key=lambda x: x.fitness, reverse=True)
+    a = []
+    for plat in self.population:
+      a.append(plat.fitness)
+    print(a)
 
   def _get_best_individuals(self):
     last_best_ind = floor(GENERATION_SIZE * BEST_IND_SURVIVOR_RATE)
@@ -36,7 +45,7 @@ class Evolver():
 
   def _mutate_parents(self, parents):
     for parent in parents:
-      parent.mutate()
+      parent.brain.mutate()
 
     return parents
 

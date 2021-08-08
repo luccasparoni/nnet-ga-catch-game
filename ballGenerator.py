@@ -1,4 +1,3 @@
-import pygame
 from defs import *
 from ball import Ball
 
@@ -18,11 +17,6 @@ class BallGenerator():
 
 	def update(self, dt):
 		self.update_ball(dt)
-
-		# self.next_ball_in -= 1
-		# if(self.should_generate_ball()):
-		# 	self.next_ball_in = BALL_GENERATOR_TIME_SPAN
-		# 	self.create_ball()
 
 	def update_ball(self, dt):
 		self.ball.update(dt);
