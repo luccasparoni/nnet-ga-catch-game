@@ -30,7 +30,6 @@ def run_game():
 	gameDisplay = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 	pygame.display .set_caption("Cath the ball")
 
-	bgImg = pygame.image.load("./bg.jpg")
 	clock = pygame.time.Clock()
 	label_font = pygame.font.SysFont("monospace", DATA_FONT_SIZE)
 	
@@ -47,7 +46,7 @@ def run_game():
 			dt = 120
 		game_time += dt
 
-		gameDisplay.blit(bgImg, (0,0))
+		gameDisplay.fill((0,0,0))
 
 		# keys = pygame.key.get_pressed();
 

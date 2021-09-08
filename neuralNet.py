@@ -1,8 +1,5 @@
 from defs import *
-import tensorflow as tf
-from tensorflow.keras.layers import Dense
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.optimizers import SGD
+from neuralNetBase import NeuralNetwork
 import numpy as np
 import random
 
@@ -14,11 +11,10 @@ class NeuralNet():
 
 
 	def create_neural_model(self):
-		model = Sequential()
-		model.add(Dense(4, input_shape = (2,), activation='relu'))
-		model.add(Dense(2, activation="softmax"))
-		model.compile("adam")
-		# model.compile(SGD(lr= .2), "mse")
+		model = NeuralNetwork()
+		model.add_dense(4, input = 2)
+		model.add_dense(2,  activation="softmax")
+		model.compile()
 
 		return model
 

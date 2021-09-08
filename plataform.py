@@ -87,10 +87,9 @@ class Plataform():
 
 	def predict(self, ballGenerator):
 		ball = ballGenerator.ball
-		input = np.array([(self.x + PLATAFORM[0] / 2) - ball.center_x, ball.center_y])
+		input = np.array([[(self.x + PLATAFORM[0] / 2) - ball.center_x],[ ball.center_y]])
 
 		left, right = self.brain.predict(input)
-		print((left, right))
 		if(left > right):
 			self.move_left()
 		else:
